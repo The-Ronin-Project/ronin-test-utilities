@@ -1,0 +1,6 @@
+[versions]
+
+[libraries]
+javafaker = "com.github.javafaker:javafaker:1.0.2"
+mockk = "io.mockk:mockk:1.13.2"
+snakeyaml = { module = "org.yaml:snakeyaml", version = { prefer = "1.33" } }
