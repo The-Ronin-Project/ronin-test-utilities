@@ -18,6 +18,10 @@ class DataGeneratorTest {
         assertEquals("Sample", generator.generate())
     }
 
+    private fun getValue(): String? {
+        return null
+    }
+
     @Test
     fun `of supports infix style`() {
         val generator = SampleGenerator()
@@ -30,7 +34,7 @@ class DataGeneratorTest {
         class NullableGenerator : DataGenerator<String?>() {
             override fun generateInternal(): String? = null
         }
-        
+
         val generator: DataGenerator<String?> = NullableGenerator()
         assertNull(generator.generate())
     }

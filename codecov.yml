@@ -1,0 +1,35 @@
+codecov:
+  require_ci_to_pass: true
+coverage:
+  status:
+    default_rules:
+      flag_coverage_not_uploaded_behavior: pass
+    project:
+      data-generator:
+        target: auto
+        threshold: 5%
+        flags:
+          - data-generator
+
+    patch:
+      data-generator:
+        target: 80
+        threshold: 1%
+        base: auto
+        flags:
+          - data-generator
+
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false
+  require_base: no
+  require_head: yes
+  branches: null
+  show_carryforward_flags: false
+
+flags:
+  data-generator:
+    paths:
+      - ronin-test-data-generator/
+    carryforward: true

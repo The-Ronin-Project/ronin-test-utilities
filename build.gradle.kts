@@ -1,13 +1,37 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import pl.allegro.tech.build.axion.release.domain.properties.TagProperties
 
 plugins {
     kotlin("jvm")
 
     id("org.jlleitschuh.gradle.ktlint")
     id("com.dipien.releaseshub.gradle.plugin")
+    id("pl.allegro.tech.build.axion-release")
 
     jacoco
     `maven-publish`
+}
+
+scmVersion {
+    tag {
+        initialVersion(TagProperties.InitialVersionSupplier { _, _ -> "1.0.0" })
+        prefix.set("")
+    }
+    versionCreator { versionFromTag, position ->
+        val supportedHeads = setOf("HEAD", "master", "main")
+        if (!supportedHeads.contains(position.branch)) {
+            val jiraBranchRegex = Regex("(\\w+)-(\\d+)-(.+)")
+            val match = jiraBranchRegex.matchEntire(position.branch)
+            val branchExtension = match?.let {
+                val (project, number, _) = it.destructured
+                "$project$number"
+            } ?: position.branch
+
+            "$versionFromTag-$branchExtension"
+        } else {
+            versionFromTag
+        }
+    }
 }
 
 allprojects {
@@ -57,6 +81,9 @@ allprojects {
         }
         mavenLocal()
     }
+
+    // Set version
+    project.version = project.rootProject.scmVersion.version
 }
 
 subprojects {
