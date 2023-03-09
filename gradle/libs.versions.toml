@@ -1,6 +1,5 @@
 [versions]
 
 [libraries]
-javafaker = "com.github.javafaker:javafaker:1.0.2"
+datafaker = "net.datafaker:datafaker:1.8.0"
 mockk = "io.mockk:mockk:1.13.2"
-snakeyaml = { module = "org.yaml:snakeyaml", version = { prefer = "1.33" } }

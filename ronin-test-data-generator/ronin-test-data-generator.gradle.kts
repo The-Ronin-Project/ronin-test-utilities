@@ -1,5 +1,5 @@
 dependencies {
-    implementation(libs.javafaker)
+    implementation(libs.datafaker)
 
     testImplementation(libs.mockk)
 }

@@ -1,6 +1,6 @@
 package com.projectronin.test.data.generator.faker
 
-import com.github.javafaker.Faker
+import net.datafaker.Faker
 import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue

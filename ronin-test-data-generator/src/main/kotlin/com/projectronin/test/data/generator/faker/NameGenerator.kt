@@ -1,6 +1,6 @@
 package com.projectronin.test.data.generator.faker
 
-import com.github.javafaker.Name
+import net.datafaker.providers.base.Name
 import kotlin.reflect.KFunction1
 
 /**
