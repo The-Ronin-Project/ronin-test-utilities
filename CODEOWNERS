@@ -1,4 +1,4 @@
 # Default owners. This will be used unless a more-specific match is found below.
 * @projectronin/developer-experience
 
-/ronin-test-data-generator @projectronin/developer-experience @arssycro
+/ronin-test-data-generator @projectronin/developer-experience @projectronin/interops
