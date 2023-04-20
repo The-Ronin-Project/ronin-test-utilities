@@ -102,7 +102,7 @@ subprojects {
         runtimeOnly("ch.qos.logback:logback-classic:1.4.5")
 
         // JUnit
-        testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
+        testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
     }
 
     // JUnit
