@@ -2,4 +2,5 @@
 
 [libraries]
 datafaker = "net.datafaker:datafaker:1.8.0"
-mockk = "io.mockk:mockk:1.13.2"
+mockk = "io.mockk:mockk:1.13.4"
+
