@@ -9,7 +9,7 @@ for (project in rootProject.children) {
 pluginManagement {
     plugins {
         kotlin("jvm") version "1.7.20"
-        id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
+        id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
         id("com.dipien.releaseshub.gradle.plugin") version "4.0.0"
         id("pl.allegro.tech.build.axion-release") version "1.15.0"
     }
