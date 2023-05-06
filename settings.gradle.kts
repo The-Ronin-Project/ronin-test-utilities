@@ -37,3 +37,4 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+include("aidbox-search")
