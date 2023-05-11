@@ -29,10 +29,24 @@ class AidboxFhirClient(hostUrl: String, clientId: String, clientSecret: String) 
     @PublishedApi
     internal val client: IGenericClient
 
+    private companion object {
+        // inside IRestfulClientFactory the default timeouts are all 10s  (10000)
+        //   we want to allow 'a little' more time to avoid some timeouts
+        private const val DEFAULT_TIMEOUT = 20000
+    }
+
     init {
         // don't have caller worry about 'fhir' or ending w/ slash.
         val baseUrl = hostUrl.replace("/fhir", "").trim().trimEnd('/')
-        client = FhirContext.forR4().newRestfulGenericClient("$baseUrl/fhir")
+        val r4FhirContext: FhirContext = FhirContext.forR4()
+        r4FhirContext.restfulClientFactory = ApacheRestfulClientFactory(r4FhirContext).apply {
+            connectTimeout = DEFAULT_TIMEOUT
+            socketTimeout= DEFAULT_TIMEOUT
+            connectionRequestTimeout = DEFAULT_TIMEOUT
+        }
+        //client = FhirContext.forR4().newRestfulGenericClient("$baseUrl/fhir")
+        client = r4FhirContext.newRestfulGenericClient("$baseUrl/fhir")
+
         client.registerInterceptor(CustomBearerTokenAuthInterceptor(baseUrl, clientId, clientSecret))
     }
 
@@ -56,9 +70,8 @@ class AidboxFhirClient(hostUrl: String, clientId: String, clientSecret: String) 
         return extractResourceList(bundle)
     }
 
-    fun <T: DomainResource> queryTotal(request: AidboxFhirSearchRequest,clazz: KClass<T>) : Int {
-        // todo: seems like there should be a 'more correct' way then setting 'count=0'
-        val totalRequest = request.copy(includeTotal = true, count = 0, sortAsc = "", sortDesc = "")
+    fun <T: DomainResource> queryTotal(request: AidboxFhirSearchRequest, clazz: KClass<T>) : Int {
+        val totalRequest = request.copy(includeTotal = true, count = 0, sortAsc = "", sortDesc = "", summary = "count")
         val criterionList = generateCriterionList(totalRequest)
         val bundle = client
             .search<IBaseBundle>()

@@ -70,6 +70,11 @@ data class AidboxFhirSearchRequest(
     val sortDesc: String = "",
 
     /**
+     * @see <a href="https://docs.aidbox.app/api-1/fhir-api/search-1/search-parameters-list/_summary">summary</a>
+     */
+    val summary: String = "",
+
+    /**
      * Request timeout a request (in seconds)
      * @see <a href="https://docs.aidbox.app/api-1/fhir-api/search-1/search-parameters-list/_timeout">Timeout</a>
      */
