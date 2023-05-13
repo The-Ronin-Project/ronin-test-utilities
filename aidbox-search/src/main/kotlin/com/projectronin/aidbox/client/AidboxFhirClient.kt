@@ -32,7 +32,7 @@ class AidboxFhirClient(hostUrl: String, clientId: String, clientSecret: String) 
     private companion object {
         // inside IRestfulClientFactory the default timeouts are all 10s  (10000)
         //   we want to allow 'a little' more time to avoid some timeouts
-        private const val DEFAULT_TIMEOUT = 20000
+        private const val DEFAULT_TIMEOUT = 30000
     }
 
     init {
@@ -46,7 +46,6 @@ class AidboxFhirClient(hostUrl: String, clientId: String, clientSecret: String) 
         }
         //client = FhirContext.forR4().newRestfulGenericClient("$baseUrl/fhir")
         client = r4FhirContext.newRestfulGenericClient("$baseUrl/fhir")
-
         client.registerInterceptor(CustomBearerTokenAuthInterceptor(baseUrl, clientId, clientSecret))
     }
 
@@ -57,6 +56,11 @@ class AidboxFhirClient(hostUrl: String, clientId: String, clientSecret: String) 
             .execute()
     }
 
+    /**
+     * Perform query for resources
+     *   Will only perform a single request, and the number of results returned is limited
+     *   by the request 'count' value.
+     */
     inline fun <reified T: DomainResource> queryResources(request: AidboxFhirSearchRequest) : List<T> {
         val criterionList = generateCriterionList(request)
         val bundle = client
@@ -70,7 +74,10 @@ class AidboxFhirClient(hostUrl: String, clientId: String, clientSecret: String) 
         return extractResourceList(bundle)
     }
 
-    fun <T: DomainResource> queryTotal(request: AidboxFhirSearchRequest, clazz: KClass<T>) : Int {
+    /**
+     * Execute a query to only get the count of resources (using the request criteria)
+     */
+    fun <T: DomainResource> queryResourceCount(request: AidboxFhirSearchRequest, clazz: KClass<T>) : Int {
         val totalRequest = request.copy(includeTotal = true, count = 0, sortAsc = "", sortDesc = "", summary = "count")
         val criterionList = generateCriterionList(totalRequest)
         val bundle = client
@@ -88,8 +95,7 @@ class AidboxFhirClient(hostUrl: String, clientId: String, clientSecret: String) 
      * Calls 'queryResources' but returns results in a map with the ID as the map key
      */
     inline fun <reified T : DomainResource> queryResourcesMap(request: AidboxFhirSearchRequest): Map<String, T> {
-        val resultList: List<T> = queryResources(request)
-        return convertToIdMap(resultList)
+        return convertToIdMap( queryResources(request) )
     }
 
     /**
@@ -117,10 +123,13 @@ class AidboxFhirClient(hostUrl: String, clientId: String, clientSecret: String) 
      * Calls 'queryAllResources' but returns results in a map with the ID as the map key
      */
     inline fun <reified T : DomainResource> queryAllResourcesMap(request: AidboxFhirSearchRequest): Map<String, T> {
-        val resultList: List<T> = queryAllResources(request)
-        return convertToIdMap(resultList)
+        return convertToIdMap( queryAllResources(request) )
     }
 
+    /**
+     * Examines a class and returns 'root' field names
+     *   (to figure out possible options for 'fields' on a request)
+     */
     fun getFieldNames(clazz: KClass<*>): List<String> {
         return clazz.declaredMemberProperties.map { it.name }.sorted()
     }
@@ -167,8 +176,7 @@ class AidboxFhirClient(hostUrl: String, clientId: String, clientSecret: String) 
 
     /////////////////////////////////////////////////////////
     // AUTH
-    private class CustomBearerTokenAuthInterceptor(hostUrl: String, clientId: String, clientSecret: String) :
-        IClientInterceptor {
+    private class CustomBearerTokenAuthInterceptor(hostUrl: String, clientId: String, clientSecret: String) : IClientInterceptor {
 
         private companion object {
             private val TOKEN_RESP_TYPE_REF: TypeReference<AidBoxTokenResponse> = object: TypeReference<AidBoxTokenResponse>() {}
@@ -216,7 +224,7 @@ class AidboxFhirClient(hostUrl: String, clientId: String, clientSecret: String) 
         private fun extractResponseBody(response: IHttpResponse) : String {
             try {
                 response.readEntity().use { inputStream ->
-                    return IOUtils.toString(inputStream, "UTF-8");
+                    return IOUtils.toString(inputStream, "UTF-8")
                 }
             }
             finally {
@@ -237,12 +245,12 @@ class AidboxFhirClient(hostUrl: String, clientId: String, clientSecret: String) 
 
 /*
  NOTES
-   1. Orignally looked promising to use "_result" instead of 'Bundle'.
-      but the sparse fields disn't work in that case
+   1. Originally looked promising to use "_result" instead of 'Bundle'.
+      but the sparse fields didn't work in that case
       https://docs.aidbox.app/api-1/fhir-api/search-1/search-parameters-list/_result
    2. Aidbox hapi client already had paging support
         as shown https://hapifhir.io/hapi-fhir/docs/client/examples.html
-      BUT... it's MUCH SLOWER  (and also ddoesn't work quite write with the '_page=x' vs 'page=x' parameter)
+      BUT... it's MUCH SLOWER  (and also doesn't work quite write with the '_page=x' vs 'page=x' parameter)
 
   MISC LINKS
     https://hapifhir.io/hapi-fhir/docs/client/generic_client.html

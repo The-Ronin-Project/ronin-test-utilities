@@ -1,5 +1,5 @@
 # aidbox-search
-A super-simple Aidbox client used to do ad-hoc Aidbox queries.  Speicially to view & and explore what the data in Aidbox looks like.
+A super-simple Aidbox client used to do ad-hoc Aidbox queries.  Specifically to view & and explore what the data in Aidbox looks like.
 
 NOTE: this is _NOT_ using the interops Aidbox Client.
 
@@ -31,9 +31,9 @@ More examples available in [ExamplesTest](src/test/kotlin/com/projectronin/aidbo
 
 ## Implementation Details
 
-* Simulates requests that can be normally made on the [Rest WebPage](https://staging.project-ronin.aidbox.app/ui/console#/rest)
+* Simulate requests that can be normally made on the [Rest WebPage](https://staging.project-ronin.aidbox.app/ui/console#/rest)
 * For simplicity, this project has _**NO RONIN LIBRARY DEPENDENCIES**_
-* Uses publicly avaialbe [hapifhir](https://github.com/hapifhir/org.hl7.fhir.core) client (and not the interops client)
-* exeample usage the the internal hapifhir client is available [HERE](https://hapifhir.io/hapi-fhir/docs/client/generic_client.html).
-* using the hapifhir built-in paging diddn't work (and would have been insanely slow it if did), so batch querying handled bespokely.
-* currently doesn't have much as far as unittests (shame on me :-) )
+* Uses publicly available [hapifhir](https://github.com/hapifhir/org.hl7.fhir.core) client (and not the interops client)
+* example usage of the internal hapifhir client is available [HERE](https://hapifhir.io/hapi-fhir/docs/client/generic_client.html).
+* using the hapifhir built-in paging didn't work (and would have been insanely slow it if did), so batch querying handled bespokely.
+* currently doesn't have much unittesting (shame on me :-) )

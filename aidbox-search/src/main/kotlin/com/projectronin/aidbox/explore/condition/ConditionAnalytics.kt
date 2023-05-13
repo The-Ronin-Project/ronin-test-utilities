@@ -13,30 +13,18 @@ class ConditionAnalytics {
             fields =  "category",
             count = 1000
         )
-        val conditionList : List<Condition> = client.queryAllResources(req)
 
-        // todo: i'm sure there's a cleaner way to do below
-        val categoryMap = mutableMapOf<String,Int>()
+        val conditionList : List<Condition> = client.queryResources(req)
+
+        val categoryCountMap = mutableMapOf<String,Int>()
         for (condition in conditionList) {
-            var catText = ""
-            val categoroyList = condition.category
-            for (codeableConcept in categoroyList) {
-                if (catText.isNotEmpty()) {
-                    catText += ","
-                }
-                catText += codeableConcept.text ?: ""
-            }
-            if (catText.isEmpty()) {
-                catText = "(empty)"
-            }
-
-            val currentCount = categoryMap.getOrDefault(catText, 0)
-            val newCount = currentCount + 1
-            categoryMap[catText] = newCount
+            // note: the use of 'firstOrNull' technically not correct, but not important atm.
+            val catText: String = condition.category.mapNotNull { it.coding.firstOrNull()?.code }.sorted().joinToString(",")
+            categoryCountMap[catText] = categoryCountMap.getOrDefault(catText,0) + 1
         }
 
         val reportString = buildString {
-            for (entry in categoryMap) {
+            for (entry in categoryCountMap) {
                 append("${entry.key} -- ${entry.value}\n")
             }
         }

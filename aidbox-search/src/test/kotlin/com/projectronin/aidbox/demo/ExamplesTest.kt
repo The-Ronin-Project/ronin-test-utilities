@@ -9,9 +9,10 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 /**
- * Will actually execute the examples in the STaging environment
+ * NOTE -- this is _NOT_ a true unittest,
+ *   but will actually execute the examples in the Staging environment
  *
- * This test is disabled by default (on purpsoe)
+ * This test is disabled by default (on purpose!)
  *   because not going to put the creds in the code checkin
  */
 @Disabled  // <---- DISABLED
@@ -29,11 +30,8 @@ class ExamplesTest {
      */
     @Test
     fun fetchPatient() {
-
-        val client = AidboxFhirClient("https://staging.project-ronin.aidbox.app", "__client_id__", "__client_secret__")
-
         val patient: Patient = client.getResource("1xrekpx5-eQ6bfRoF2gnLFGdZ3Gu-cyg3")
-        println("Successfull fetched patient with ID: ${patient.id}")
+        println("Successfully fetched patient with ID: ${patient.id}")
     }
 
     /**
@@ -72,11 +70,25 @@ class ExamplesTest {
             count = 200
         )
         val appointmentList : List<Appointment> = client.queryResources(req)
-        println("Successfully fetched ${appointmentList.size} patients.")
+        println("Successfully fetched ${appointmentList.size} appointments.")
     }
 
     /**
-     * query patients, but ONLY POPULATE CERTAIN FIELDS ON RESPONSE
+     * Query Appointments with map response
+     *   Similar to previous appointments query, but the response is a map (with the id as the key)
+     */
+    @Test
+    fun queryAppointmentsWithMapResponse() {
+        val req = AidboxFhirSearchRequest(
+            tenantId = "apposnd",
+            count = 200
+        )
+        val appointmentMap : Map<String,Appointment> = client.queryResourcesMap(req)
+        println("Successfully fetched ${appointmentMap.size} appointments.")
+    }
+
+    /**
+     * Query Patients, but ONLY POPULATE CERTAIN FIELDS ON RESPONSE
      * This is _VERY_ useful thing to do when you want to query a LARGE amount of data
      * NOTE: the field names are CASE-SENSITIVE  (i.e. 'birthdate' w/ lowercase 'd' would not work)
      */
@@ -111,37 +123,34 @@ class ExamplesTest {
     /**
      * Search for __ALL__ Appointments
      *
-     * The reqquest below is calling 'getAllResources' wwith will do multiple requests
+     * The request below is calling 'getAllResources' which will do multiple requests
      * to fetch all the data in batches.
      *
      * NOTE: it is possible to abuse the system with this.
-     *   Thefore this method should be used ___VERY CAREFULLY__
+     *   Therefore, this method should be used ___VERY CAREFULLY__
      */
     @Test
     fun fetchAllTenantAppointments() {
         val req = AidboxFhirSearchRequest(
             tenantId = "apposnd", // search for this tenant
             count = 1000,         // each request will fetch 1000 records at a time.
-            fields = "id,status,participant,start",  // ALMOST ALWAYS should limit fields returned (else it's too slow)
+            fields = "id,status,participant,start", // ALMOST ALWAYS should limit fields returned (else it's too slow)
         )
         val appointments : List<Appointment> = client.queryAllResources(req)
         println("Found ${appointments.size} Appointments.")
     }
 
     /**
-     * Get total count of Appointments for tenant
-     *
-     * NOTE: have seens this be SLOW on Condistions/Observations
+     * get the COUNT of all Appointments for atenant
+     *  ***NOTE***: have seen this be SLOW on Conditions/Observations
      */
     @Test
     fun fetchTenantAppointmentCount() {
         val req = AidboxFhirSearchRequest(
             tenantId = "apposnd", // search for this tenant
         )
-
         // NOTE: have to pass in 2nd param to indicate with resource type to count
-        val totalAppointments : Int = client.queryTotal(req, Appointment::class)
+        val totalAppointments : Int = client.queryResourceCount(req, Appointment::class)
         println("Total Number of Appointments: ${totalAppointments}.")
     }
-
 }

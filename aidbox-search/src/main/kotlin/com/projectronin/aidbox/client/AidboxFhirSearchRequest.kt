@@ -10,7 +10,7 @@ data class AidboxFhirSearchRequest(
     val tenantId: String = "",
 
     /**
-     * Comma-delimited list of fields when want to only return sparse objects (beter performance)
+     * Comma-delimited list of fields when want to only return sparse objects (better performance)
      * @see <a href="https://docs.aidbox.app/api-1/fhir-api/search-1/search-parameters-list/_elements">elements</a>
      */
     val fields: String = "",
@@ -23,8 +23,9 @@ data class AidboxFhirSearchRequest(
     val count: Int = DEFAULT_COUNT,
 
     /**
-     * flag to fetch total  (should only be used for 'querytotal' requests
-     *   (fetching the total does an 'extra' aidbox request that is slow)
+     * flag to fetch total
+     *   Should _only_ be used for 'queryResourceCount' requests,
+     *     otherwise fetching the total does an 'extra' aidbox request that is slow
      * @see <a href="https://docs.aidbox.app/api-1/fhir-api/search-1/search-parameters-list/_total-or-_countmethod">total</a>
      */
     val includeTotal: Boolean = false,
@@ -32,7 +33,7 @@ data class AidboxFhirSearchRequest(
     //  only year  - 2019 ; year and month - 2019-03 ; date - 2019-03-05
 
     /**
-     * search for records by patientId in the subject.reference
+     * search for records by patientId in the subject reference
      *   NOTE: request only works with endpoints that support it!
      */
     val subjectPatientId: String  = "",

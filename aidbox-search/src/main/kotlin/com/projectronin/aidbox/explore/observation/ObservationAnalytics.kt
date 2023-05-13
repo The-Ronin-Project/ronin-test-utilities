@@ -21,21 +21,19 @@ class ObservationAnalytics {
 
         // convert into a map  (where key is the code.text value)
         //   multiple observations will have the same code.text, so this map will be much smaller size than the results list
-        val customCodableMap = observationResultsList
+        val customCodeableMap = observationResultsList
             .map { it.code!! }
-            .associate { it.text to it.coding.orEmpty().map { PrintalbeCoding(it.display.orEmpty(), it.code.orEmpty(), it.system.orEmpty()) } }
+            .associate { it.text to it.coding.orEmpty().map { c -> PrintableCoding(c.display.orEmpty(), c.code.orEmpty(), c.system.orEmpty()) } }
             .toSortedMap()
 
-        val textKeysOnly = customCodableMap.keys.sorted()
+        val textKeysOnly = customCodeableMap.keys.sorted()
         println("MAP KEYS...")
         println(textKeysOnly)
 
-        println("")
-
         println("FULL MAP...")
-        val prettyJson = ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(customCodableMap)
+        val prettyJson = ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(customCodeableMap)
         println(prettyJson)
     }
 
-    private data class PrintalbeCoding(val display: String, val code: String, val system: String)
+    private data class PrintableCoding(val display: String, val code: String, val system: String)
 }
