@@ -21,6 +21,4 @@ class ObservationAnalytics {
         // Group all records by code type  (i.e. "Temp", "BP", "Pulse", "Resp", etc)
         val vitalsMap: Map<String, List<Observation>> = observationResultsList.groupBy { it.code!!.text }
     }
-
-    private data class PrintableCoding(val display: String, val code: String, val system: String)
 }
