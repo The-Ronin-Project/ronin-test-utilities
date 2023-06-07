@@ -1,5 +1,7 @@
 # aidbox-search
-A super-simple Aidbox client used to do ad-hoc Aidbox queries.  Specifically to view & and explore what the data in Aidbox looks like.
+A super-simple Aidbox client used to do _**ad-hoc Aidbox queries**_.  
+
+Specifically to view & and explore what the data in Aidbox looks like.
 
 NOTE: this is _NOT_ using the interops Aidbox Client.
 
