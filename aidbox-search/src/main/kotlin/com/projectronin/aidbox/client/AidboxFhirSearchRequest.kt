@@ -29,8 +29,6 @@ data class AidboxFhirSearchRequest(
      * @see <a href="https://docs.aidbox.app/api-1/fhir-api/search-1/search-parameters-list/_total-or-_countmethod">total</a>
      */
     val includeTotal: Boolean = false,
-    // https://docs.aidbox.app/api-1/fhir-api/search-1/search-parameters-list/_lastupdated
-    //  only year  - 2019 ; year and month - 2019-03 ; date - 2019-03-05
 
     /**
      * search for records by patientId in the subject reference
@@ -46,14 +44,15 @@ data class AidboxFhirSearchRequest(
 
     /**
      * search lastUpdated
-     *   NOTE: most be in expected format
+     *   NOTE: must be in expected format (only year - 2019 year & month - 2019-03 date - 2019-03-05)
+     * )
      * @see <a href="https://docs.aidbox.app/api-1/fhir-api/search-1/search-parameters-list/_lastupdated">lastUpdated</a>
      */
     val lastUpdated: String = "",
 
     /**
      * search createdAt
-     *   NOTE: most be in expected format
+     *   NOTE: must be in expected format
      * @see <a href="https://docs.aidbox.app/api-1/fhir-api/search-1/search-parameters-list/_lastupdated">createdAt</a>
      */
     val createdAt: String = "",
