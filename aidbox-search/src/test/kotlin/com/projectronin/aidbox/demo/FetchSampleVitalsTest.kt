@@ -8,8 +8,10 @@ import org.hl7.fhir.r4.model.Observation
 import org.hl7.fhir.r4.model.Quantity
 import org.hl7.fhir.r4.model.StringType
 import org.hl7.fhir.r4.model.Type
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
+@Disabled // <-- Disabled b/c not putting 'secret' in the code
 class FetchSampleLabsTest {
 
     private companion object {
