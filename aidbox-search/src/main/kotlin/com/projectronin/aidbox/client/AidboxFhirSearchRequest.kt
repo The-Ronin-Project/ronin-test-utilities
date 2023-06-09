@@ -45,7 +45,6 @@ data class AidboxFhirSearchRequest(
     /**
      * search lastUpdated
      *   NOTE: must be in expected format (only year - 2019 year & month - 2019-03 date - 2019-03-05)
-     * )
      * @see <a href="https://docs.aidbox.app/api-1/fhir-api/search-1/search-parameters-list/_lastupdated">lastUpdated</a>
      */
     val lastUpdated: String = "",
