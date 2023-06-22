@@ -1,5 +1,5 @@
 [versions]
 
 [libraries]
-datafaker = "net.datafaker:datafaker:2.0.0"
+datafaker = "net.datafaker:datafaker:2.0.1"
 mockk = "io.mockk:mockk:1.13.5"
