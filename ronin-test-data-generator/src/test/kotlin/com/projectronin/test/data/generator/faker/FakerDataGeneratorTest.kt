@@ -20,6 +20,12 @@ class FakerDataGeneratorTest {
     }
 
     @Test
+    fun `generates a random sentence`() {
+        val word = Impl().getRandomSentenceForTest()
+        assertNotNull(word)
+    }
+
+    @Test
     fun `generates a random integer`() {
         val minimum = 1
         val maximum = 10
@@ -31,6 +37,24 @@ class FakerDataGeneratorTest {
         }
     }
 
+    @Test
+    fun `generates a random boolean`() {
+        val bool = Impl().getRandomBooleanForTest()
+        assertNotNull(bool)
+    }
+
+    @Test
+    fun `generates a random place name`() {
+        val name = Impl().getRandomPlaceForTest()
+        assertNotNull(name)
+    }
+
+    @Test
+    fun `generates a random uri string`() {
+        val bool = Impl().getRandomUriForTest()
+        assertNotNull(bool)
+    }
+
     private class Impl : FakerDataGenerator<String>() {
         override fun generateInternal(): String {
             TODO("Not yet implemented")
@@ -38,6 +62,10 @@ class FakerDataGeneratorTest {
 
         fun getFakerForTest(): Faker = faker
         fun getRandomWordForTest(): String = randomWord()
+        fun getRandomSentenceForTest(): String = randomSentence()
         fun getRandomIntForTest(minimum: Int, maximum: Int): Int = randomInt(minimum, maximum)
+        fun getRandomBooleanForTest(): Boolean = randomBool()
+        fun getRandomPlaceForTest(): String = randomHospital()
+        fun getRandomUriForTest(): String = randomUri()
     }
 }
