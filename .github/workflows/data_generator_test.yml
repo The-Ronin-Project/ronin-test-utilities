@@ -16,12 +16,13 @@ jobs:
           distribution: 'zulu'
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Gradlew Test
-        run: ./gradlew :ronin-test-data-generator:test
-      - name: Upload Code Coverage
-        uses: codecov/codecov-action@v2
+      - name: Build and Test
+        uses: projectronin/github/.github/actions/basic-gradle-build-publish@basic_gradle_build_publish/v1
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: false
-          file: ./ronin-test-data-generator/codecov/test/jacocoTestReport.xml
-          flags: data-generator
+          nexus_user: ${{ secrets.NEXUS_MAVEN_USER }}
+          nexus_token: ${{ secrets.NEXUS_MAVEN_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          sonar_token: ${{ secrets.SONAR_TOKEN }}
+          sonar_host_url: ${{ secrets.SONAR_HOST_URL }}
+          codecov_token: ${{ secrets.CODECOV_TOKEN }}
+          publish: false
