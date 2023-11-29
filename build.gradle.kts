@@ -168,7 +168,7 @@ subprojects {
 
 sonar {
     properties {
-        property("sonar.projectKey", "my-repo")
-        property("sonar.projectName", "my-repo")
+        property("sonar.projectKey", "ronin-test-utilities")
+        property("sonar.projectName", "ronin-test-utilites")
     }
 }
