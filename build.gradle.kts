@@ -172,4 +172,3 @@ sonar {
         property("sonar.projectName", "my-repo")
     }
 }
-
