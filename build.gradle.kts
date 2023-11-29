@@ -7,6 +7,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
     id("com.dipien.releaseshub.gradle.plugin")
     id("pl.allegro.tech.build.axion-release")
+    id("org.sonarqube") version "4.0.0.2929"
 
     jacoco
     `maven-publish`
@@ -164,3 +165,11 @@ subprojects {
         }
     }
 }
+
+sonar {
+    properties {
+        property("sonar.projectKey", "my-repo")
+        property("sonar.projectName", "my-repo")
+    }
+}
+
