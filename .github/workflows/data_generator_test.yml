@@ -2,7 +2,7 @@ name: Ronin Test Data Generator Tests
 on:
   push:
     branches: [casey/ronin-test-utilities-fix]
-  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
