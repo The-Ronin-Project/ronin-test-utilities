@@ -24,7 +24,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build and Test
-        uses: projectronin/github/.github/actions/basic-gradle-build-publish@basic_gradle_build_publish/v3
+        uses: projectronin/github/.github/actions/basic-gradle-build-publish@basic_gradle_build_publish/v4
         with:
           nexus_user: ${{ secrets.NEXUS_MAVEN_USER }}
           nexus_token: ${{ secrets.NEXUS_MAVEN_TOKEN }}
