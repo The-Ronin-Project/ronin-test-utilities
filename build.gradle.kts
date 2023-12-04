@@ -7,6 +7,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
     id("com.dipien.releaseshub.gradle.plugin")
     id("pl.allegro.tech.build.axion-release")
+    id("org.sonarqube") version "4.0.0.2929"
 
     jacoco
     `maven-publish`
@@ -162,5 +163,16 @@ subprojects {
                 from(components["java"])
             }
         }
+    }
+}
+
+tasks.sonar {
+    dependsOn(tasks.jacocoTestReport)
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "ronin-test-utilities")
+        property("sonar.projectName", "ronin-test-utilites")
     }
 }
